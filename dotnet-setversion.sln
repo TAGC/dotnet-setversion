@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-setversion", "dotnet-setversion\dotnet-setversion.csproj", "{4CEC4F68-49E1-4B0A-B154-722B1C96E829}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-project", "test-project\test-project.csproj", "{ABAC3B80-2415-41C8-B6F2-4C241A7DF7F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4CEC4F68-49E1-4B0A-B154-722B1C96E829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CEC4F68-49E1-4B0A-B154-722B1C96E829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CEC4F68-49E1-4B0A-B154-722B1C96E829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CEC4F68-49E1-4B0A-B154-722B1C96E829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABAC3B80-2415-41C8-B6F2-4C241A7DF7F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABAC3B80-2415-41C8-B6F2-4C241A7DF7F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABAC3B80-2415-41C8-B6F2-4C241A7DF7F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABAC3B80-2415-41C8-B6F2-4C241A7DF7F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

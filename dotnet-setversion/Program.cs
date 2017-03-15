@@ -25,11 +25,7 @@ namespace dotnet_setversion
                 .GetOrCreateElement("Version")
                 .SetValue(versionString);
 
-            using (var fileStream = new FileStream(csprojFile, FileMode.Open))
-            {
-                document.Save(fileStream);
-            }
-
+            File.WriteAllText(csprojFile, document.ToString());
             Console.WriteLine($"Setting version: {versionString}");
             return 0;
         }

@@ -4,7 +4,7 @@ It is based on [dotnet-gitversion](https://github.com/ah-/dotnet-gitversion), bu
 
 ## Usage
 
-Reference **dotnet-setversion** in your project's `*.csproj`:
+Reference **dotnet-setversion** in your project's `*.csproj` (as below) and then run `dotnet restore` to fetch the package.
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -15,6 +15,7 @@ Reference **dotnet-setversion** in your project's `*.csproj`:
 ...
 <Project>
 ```
+
 With your project root folder set as the current working directory, invoke the following:
 
 ```

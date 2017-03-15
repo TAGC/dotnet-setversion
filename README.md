@@ -6,8 +6,15 @@ It is based on [dotnet-version](https://github.com/ah-/dotnet-gitversion), but i
 
 Reference **dotnet-setversion** in your project's `*.csproj`:
 
-**TODO**
-
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+...
+  <ItemGroup>
+    <DotNetCliToolReference Include="dotnet-setversion" Version="*" />
+  </ItemGroup>
+...
+<Project>
+```
 With your project root folder set as the current working directory, invoke the following:
 
 ```
@@ -15,4 +22,3 @@ $ dotnet setversion 0.1.2-beta0001
 ```
 
 Replace '0.1.2-beta0001' with any valid version string.
-

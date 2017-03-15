@@ -31,7 +31,6 @@ namespace dotnet_setversion
             }
 
             Console.WriteLine($"Setting version: {versionString}");
-            Console.ReadKey();
             return 0;
         }
     }

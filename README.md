@@ -2,6 +2,8 @@
 
 It is based on [dotnet-gitversion](https://github.com/ah-/dotnet-gitversion), but is updated to work for the new `*.csproj` format instead of project.json, and relies on the version information being passed to it.
 
+[![NuGet](https://img.shields.io/nuget/v/dotnet-setversion.svg)](https://www.nuget.org/packages/dotnet-setversion)
+
 ## Usage
 
 Reference **dotnet-setversion** in your project's `*.csproj` (as below) and then run `dotnet restore` to fetch the package.
@@ -23,3 +25,11 @@ $ dotnet setversion 0.1.2-beta0001
 ```
 
 Replace '0.1.2-beta0001' with any valid version string.
+
+With [GitVersion](https://github.com/GitTools/GitVersion) installed, you can do the following as well:
+
+```
+$ dotnet setversion $(gitversion -showvariable NugetVersionV2)
+```
+
+This (or something similar) can of course be done during a continuous integration build, which is the main intention behind developing this project.

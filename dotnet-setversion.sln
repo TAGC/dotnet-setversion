@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-setversion", "dotnet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-project", "test-project\test-project.csproj", "{ABAC3B80-2415-41C8-B6F2-4C241A7DF7F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-project-netcore2", "test-project-netcore2\test-project-netcore2.csproj", "{3C37C00B-8AF0-4F99-B947-BEB554BAA4C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{ABAC3B80-2415-41C8-B6F2-4C241A7DF7F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABAC3B80-2415-41C8-B6F2-4C241A7DF7F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABAC3B80-2415-41C8-B6F2-4C241A7DF7F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C37C00B-8AF0-4F99-B947-BEB554BAA4C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C37C00B-8AF0-4F99-B947-BEB554BAA4C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C37C00B-8AF0-4F99-B947-BEB554BAA4C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C37C00B-8AF0-4F99-B947-BEB554BAA4C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

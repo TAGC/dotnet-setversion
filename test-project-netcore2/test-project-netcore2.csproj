@@ -3,6 +3,6 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-setversion" Version="*" />
+    <DotNetCliToolReference Include="dotnet-setversion" Version="1.0.1-bugfix-3-0001" />
   </ItemGroup>
 </Project>

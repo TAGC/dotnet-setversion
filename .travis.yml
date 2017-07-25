@@ -1,0 +1,10 @@
+language: csharp
+dist: trusty
+mono: none
+dotnet: 2.0.0
+script:
+    - cd dotnet-setversion
+    - dotnet restore
+    - dotnet build
+    - dotnet pack -c Release -o artifacts/
+    - dotnet nuget push --source https://www.nuget.org/api/v2/package --api-key $NUGET_APIKEY $(find artifacts -name "*.nupkg")

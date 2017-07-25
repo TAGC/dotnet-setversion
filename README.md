@@ -3,6 +3,7 @@
 It is based on [dotnet-gitversion](https://github.com/ah-/dotnet-gitversion), but is updated to work for the new `*.csproj` format instead of project.json, and relies on the version information being passed to it.
 
 [![NuGet](https://img.shields.io/nuget/v/dotnet-setversion.svg)](https://www.nuget.org/packages/dotnet-setversion)
+[![Build Status](https://travis-ci.org/TAGC/dotnet-setversion.svg?branch=master)](https://travis-ci.org/TAGC/dotnet-setversion)
 
 ## Usage
 

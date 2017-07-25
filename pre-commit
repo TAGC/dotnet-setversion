@@ -1,0 +1,10 @@
+#!/bin/sh
+# Bump the version for the project and ensure this is included in the commit
+# Copy this file under .git/hooks to enable
+
+PROJECT_VERSION=$(gitversion -showvariable NugetVersionV2)
+cd dotnet-setversion
+dotnet restore
+dotnet setversion $PROJECT_VERSION
+cd ..
+git add dotnet-setversion/dotnet-setversion.csproj

@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/TAGC/dotnet-setversion/tree/HEAD)
-
-[Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v1.0.0...HEAD)
+## [v1.0.1](https://github.com/TAGC/dotnet-setversion/tree/v1.0.1) (2017-07-25)
+[Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v1.0.0...v1.0.1)
 
 **Fixed bugs:**
 

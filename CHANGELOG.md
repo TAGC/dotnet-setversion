@@ -1,5 +1,12 @@
 # Change Log
 
+## [v1.0.2](https://github.com/TAGC/dotnet-setversion/tree/v1.0.2) (2017-08-22)
+[Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v1.0.1...v1.0.2)
+
+**Fixed bugs:**
+
+- Latest dotnet2.0-sdk container doesn't work with setversion [\#4](https://github.com/TAGC/dotnet-setversion/issues/4)
+
 ## [v1.0.1](https://github.com/TAGC/dotnet-setversion/tree/v1.0.1) (2017-07-25)
 [Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v1.0.0...v1.0.1)
 

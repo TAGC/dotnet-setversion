@@ -14,10 +14,11 @@ RUN dotnet restore
 
 RUN git clone https://github.com/TAGC/dotnet-setversion && \
     cd dotnet-setversion/dotnet-setversion && \
+    git checkout issue/5 && \
     dotnet publish -c Release -r linux-x64 -f netcoreapp2.0 -o dist && \
     chmod +x dist/dotnet-setversion && \
     ln -s $(pwd)/dist/dotnet-setversion /usr/local/bin
 
 RUN dotnet restore
-RUN cd .. && dotnet setversion -f app/test-project-netcore2.csproj 1.2.3
-ENTRYPOINT cat test-project-netcore2.csproj
+RUN cd .. && dotnet setversion -f app/test-issue-5.csproj 1.2.3
+ENTRYPOINT cat test-issue-5.csproj

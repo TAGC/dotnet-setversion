@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using McMaster.Extensions.CommandLineUtils;
 
 namespace dotnet_setversion
 {
@@ -9,15 +10,47 @@ namespace dotnet_setversion
     {
         static int Main(string[] args)
         {
-            if (args.Length < 1)
-            {
-                Console.WriteLine("Missing version string");
-                return 1;
-            }
+            var app = CreateApplication();
+            return app.Execute(args);
+        }
 
-            var versionString = args[0];
-            var currentDirectory = Directory.GetCurrentDirectory();
-            var csprojFile = Directory.EnumerateFileSystemEntries(currentDirectory, "*.csproj", SearchOption.TopDirectoryOnly).First();
+        private static CommandLineApplication CreateApplication()
+        {
+            var app = new CommandLineApplication(throwOnUnexpectedArg: true)
+            {
+                Name = "dotnet-setversion"
+            };
+            
+            app.HelpOption("-h|--help");
+            var versionArgument = app.Argument("version", "The version to set the project as.").IsRequired();
+            var csProjOption = app.Option(
+                "-f|--file",
+                "Identifies the csproj file to update. Looks in the current working directory if not set.",
+                CommandOptionType.SingleValue);
+
+            app.OnExecute(() =>
+            {
+                var versionString = versionArgument.Value;
+                var currentDirectory = Directory.GetCurrentDirectory();
+                var csprojFile = csProjOption.HasValue()
+                    ? csProjOption.Value()
+                    : Directory.EnumerateFileSystemEntries(currentDirectory, "*.csproj", SearchOption.TopDirectoryOnly).FirstOrDefault();
+
+                if (!File.Exists(csprojFile))
+                {
+                    Console.WriteLine($"Cannot find csproj file (path: {csprojFile})");
+                    return 1;
+                }
+                
+                UpdateVersion(versionString, csprojFile);
+                return 0;
+            });
+
+            return app;
+        }
+
+        private static void UpdateVersion(string versionString, string csprojFile)
+        {
             var document = XDocument.Load(csprojFile);
 
             document.GetOrCreateElement("Project")
@@ -27,7 +60,6 @@ namespace dotnet_setversion
 
             File.WriteAllText(csprojFile, document.ToString());
             Console.WriteLine($"Setting version: {versionString}");
-            return 0;
         }
     }
 

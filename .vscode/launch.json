@@ -10,8 +10,8 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/dotnet-setversion/bin/Debug/netcoreapp1.0/dotnet-setversion.dll",
-            "args": [],
+            "program": "${workspaceFolder}/dotnet-setversion/bin/Debug/netcoreapp2.0/dotnet-setversion.dll",
+            "args": ["--help"],
             "cwd": "${workspaceFolder}/dotnet-setversion",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
             "console": "internalConsole",

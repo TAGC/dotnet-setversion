@@ -4,3 +4,5 @@ services:
     build: test-project
   netcore2_0:
     build: test-project-netcore2
+  issue5:
+    build: test-issue-5

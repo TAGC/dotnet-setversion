@@ -1,4 +1,4 @@
-# This Dockerfile is used to test that that CLI tool
+# This Dockerfile is used to test that the CLI tool
 # works when only the 2.0 SDK is installed in the environment
 
 FROM microsoft/dotnet:2.0-sdk

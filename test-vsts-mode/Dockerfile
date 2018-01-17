@@ -20,5 +20,5 @@ RUN git clone https://github.com/TAGC/dotnet-setversion && \
     ln -s $(pwd)/dist/dotnet-setversion /usr/local/bin
 
 RUN dotnet restore
-RUN cd .. && dotnet setversion -f app/test-issue-5.csproj 1.2.3
-ENTRYPOINT cat test-issue-5.csproj
+RUN cd .. && dotnet setversion app/test-vsts-mode.csproj 1.2.3 --vsts
+ENTRYPOINT cat test-vsts-mode.csproj

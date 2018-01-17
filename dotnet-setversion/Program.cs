@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using McMaster.Extensions.CommandLineUtils;
 
 namespace dotnet_setversion
 {
@@ -10,56 +9,55 @@ namespace dotnet_setversion
     {
         static int Main(string[] args)
         {
-            var app = CreateApplication();
-            return app.Execute(args);
-        }
+            string csprojFile;
+            string versionString;
 
-        private static CommandLineApplication CreateApplication()
-        {
-            var app = new CommandLineApplication(throwOnUnexpectedArg: true)
+            bool IsHelpFlag(string arg) => arg == "-h" || arg == "--help";
+            bool IsVstsFlag(string arg) => arg == "--vsts";
+            void PrintUsage() => Console.WriteLine("Usage: (dotnet setversion <version>) || (dotnet setversion <csproj-path> <version> --vsts)");
+
+            if (args.Any(IsHelpFlag))
             {
-                Name = "dotnet-setversion"
-            };
-            
-            app.HelpOption("-h|--help");
-            var versionArgument = app.Argument("version", "The version to set the project as.").IsRequired();
-            var csProjOption = app.Option(
-                "-f|--file",
-                "Identifies the csproj file to update. Looks in the current working directory if not set.",
-                CommandOptionType.SingleValue);
-
-            app.OnExecute(() =>
-            {
-                var versionString = versionArgument.Value;
-                var currentDirectory = Directory.GetCurrentDirectory();
-                var csprojFile = csProjOption.HasValue()
-                    ? csProjOption.Value()
-                    : Directory.EnumerateFileSystemEntries(currentDirectory, "*.csproj", SearchOption.TopDirectoryOnly).FirstOrDefault();
-
-                if (!File.Exists(csprojFile))
-                {
-                    Console.WriteLine($"Cannot find csproj file (path: {csprojFile})");
-                    return 1;
-                }
-                
-                UpdateVersion(versionString, csprojFile);
+                PrintUsage();
                 return 0;
-            });
+            }
 
-            return app;
-        }
+            switch (args.Length)
+            {
+                case 3 when IsVstsFlag(args[2]):
+                    csprojFile = args[0];
+                    versionString = args[1];
+                    break;
 
-        private static void UpdateVersion(string versionString, string csprojFile)
-        {
+                case 1 when !IsVstsFlag(args[0]):
+                    var currentDirectory = Directory.GetCurrentDirectory();
+                    csprojFile = Directory
+                        .EnumerateFileSystemEntries(currentDirectory, "*.csproj", SearchOption.TopDirectoryOnly)
+                        .FirstOrDefault();
+                    versionString = args[0];
+                    break;
+
+                default:
+                    Console.WriteLine("Usage is incorrect.");
+                    PrintUsage();
+                    return 1;
+            }
+
+            if (!File.Exists(csprojFile))
+            {
+                Console.WriteLine($"Could not locate csproj file: {csprojFile}");
+                return 2;
+            }
+
             var document = XDocument.Load(csprojFile);
-
             document.GetOrCreateElement("Project")
                 .GetOrCreateElement("PropertyGroup")
                 .GetOrCreateElement("Version")
                 .SetValue(versionString);
 
             File.WriteAllText(csprojFile, document.ToString());
-            Console.WriteLine($"Setting version: {versionString}");
+            Console.WriteLine($"Setting version: {versionString} ( in {csprojFile})");
+            return 0;
         }
     }
 

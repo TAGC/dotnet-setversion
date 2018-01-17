@@ -9,24 +9,54 @@ namespace dotnet_setversion
     {
         static int Main(string[] args)
         {
-            if (args.Length < 1)
+            string csprojFile;
+            string versionString;
+
+            bool IsHelpFlag(string arg) => arg == "-h" || arg == "--help";
+            bool IsVstsFlag(string arg) => arg == "--vsts";
+            void PrintUsage() => Console.WriteLine("Usage: (dotnet setversion <version>) || (dotnet setversion <csproj-path> <version> --vsts)");
+
+            if (args.Any(IsHelpFlag))
             {
-                Console.WriteLine("Missing version string");
-                return 1;
+                PrintUsage();
+                return 0;
             }
 
-            var versionString = args[0];
-            var currentDirectory = Directory.GetCurrentDirectory();
-            var csprojFile = Directory.EnumerateFileSystemEntries(currentDirectory, "*.csproj", SearchOption.TopDirectoryOnly).First();
-            var document = XDocument.Load(csprojFile);
+            switch (args.Length)
+            {
+                case 3 when IsVstsFlag(args[2]):
+                    csprojFile = args[0];
+                    versionString = args[1];
+                    break;
 
+                case 1 when !IsVstsFlag(args[0]):
+                    var currentDirectory = Directory.GetCurrentDirectory();
+                    csprojFile = Directory
+                        .EnumerateFileSystemEntries(currentDirectory, "*.csproj", SearchOption.TopDirectoryOnly)
+                        .FirstOrDefault();
+                    versionString = args[0];
+                    break;
+
+                default:
+                    Console.WriteLine("Usage is incorrect.");
+                    PrintUsage();
+                    return 1;
+            }
+
+            if (!File.Exists(csprojFile))
+            {
+                Console.WriteLine($"Could not locate csproj file: {csprojFile}");
+                return 2;
+            }
+
+            var document = XDocument.Load(csprojFile);
             document.GetOrCreateElement("Project")
                 .GetOrCreateElement("PropertyGroup")
                 .GetOrCreateElement("Version")
                 .SetValue(versionString);
 
             File.WriteAllText(csprojFile, document.ToString());
-            Console.WriteLine($"Setting version: {versionString}");
+            Console.WriteLine($"Setting version: {versionString} ( in {csprojFile})");
             return 0;
         }
     }

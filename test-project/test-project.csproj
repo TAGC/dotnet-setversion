@@ -3,6 +3,6 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-setversion" Version="1.0.2-ci0002" />
+    <DotNetCliToolReference Include="dotnet-setversion" Version="*" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,25 @@
+image: Visual Studio 2017
+branches:
+  only:
+  - master
+  - develop
+install:
+  - cinst gitversion.portable -y
+before_build:
+  - nuget restore
+  - ps: $env:VERSION=$(gitversion /showvariable NuGetVersionV2)
+build_script:
+  - ps: dotnet restore
+  - ps: cd dotnet-setversion; dotnet setversion $env:VERSION; cd ..
+  - ps: dotnet build
+  - ps: dotnet pack -c Release -o out/
+test: off
+artifacts:
+  path: dotnet-setversion/out/*.nupkg
+  name: NuGet packages
+deploy:
+  provider: NuGet
+  skip_symbols: false
+  api_key:
+    secure: USCwZe1eILJaDmG30VFhlFWmr2P0G6o0HhUau72/W+TzyAMZyqEfL//vQhfjTSKP
+  artifact: NuGet packages

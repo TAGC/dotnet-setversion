@@ -4,6 +4,4 @@
 FROM microsoft/dotnet:1.1-sdk
 WORKDIR /app
 COPY . .
-RUN dotnet restore
-RUN dotnet setversion 1.2.3
-ENTRYPOINT cat test-project.csproj
+ENTRYPOINT .\test.ps1

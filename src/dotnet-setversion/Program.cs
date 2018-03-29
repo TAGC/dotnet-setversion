@@ -5,9 +5,9 @@ using System.Xml.Linq;
 
 namespace dotnet_setversion
 {
-    class Program
+    public static class Program
     {
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
             if (args.Length < 1)
             {
@@ -20,11 +20,22 @@ namespace dotnet_setversion
             var csprojFile = Directory.EnumerateFileSystemEntries(currentDirectory, "*.csproj", SearchOption.TopDirectoryOnly).First();
             var document = XDocument.Load(csprojFile);
 
-            document.GetOrCreateElement("Project")
-                .GetOrCreateElement("PropertyGroup")
-                .GetOrCreateElement("Version")
-                .SetValue(versionString);
+            // Search for an existing version node in the csproj file.
+            var projectNode = document.GetOrCreateElement("Project");
+            var versionNode = projectNode
+                .Elements("PropertyGroup")
+                .SelectMany(it => it.Elements("Version"))
+                .SingleOrDefault();
 
+            // If no version node exists, create it.
+            if (versionNode == null)
+            {
+                versionNode = projectNode
+                    .GetOrCreateElement("PropertyGroup")
+                    .GetOrCreateElement("Version");
+            }
+
+            versionNode.SetValue(versionString);
             File.WriteAllText(csprojFile, document.ToString());
             Console.WriteLine($"Setting version: {versionString}");
             return 0;

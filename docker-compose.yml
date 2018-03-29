@@ -1,6 +1,0 @@
-version: '3'
-services:
-  netcore1_1:
-    build: test-project
-  netcore2_0:
-    build: test-project-netcore2

@@ -1,8 +1,0 @@
-version: '3'
-services:
-  netcore1_1:
-    build: test/test-netcore-1
-  netcore2_0:
-    build: test/test-netcore-2
-  issue-8:
-    build: test/test-issue-8

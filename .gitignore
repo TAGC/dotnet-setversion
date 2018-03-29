@@ -283,3 +283,6 @@ __pycache__/
 # !tools/packages.config
 
 # End of https://www.gitignore.io/api/visualstudio
+
+# User-added
+test/*/NuGet.Config

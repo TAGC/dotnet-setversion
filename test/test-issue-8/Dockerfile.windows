@@ -1,0 +1,4 @@
+FROM microsoft/dotnet:2.0-sdk-nanoserver-sac2016
+WORKDIR /app
+COPY . .
+ENTRYPOINT .\test.ps1

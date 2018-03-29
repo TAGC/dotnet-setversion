@@ -7,7 +7,7 @@ NUGET_CONFIG_TEMPLATE=$SLN_DIR/test/NuGet.config.template
 # Pack the tool
 dotnet pack $TOOL_PROJ_DIR -c Release -o out
 
-# Copy required filese and run test defined by each project
+# Copy required files and run test defined by each project
 err=0
 for d in `find test/* -maxdepth 0 -type d`
 do

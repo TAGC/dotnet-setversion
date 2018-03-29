@@ -286,3 +286,4 @@ __pycache__/
 
 # User-added
 test/*/NuGet.Config
+.github_changelog_generator

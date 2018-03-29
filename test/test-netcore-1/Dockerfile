@@ -6,4 +6,4 @@ WORKDIR /app
 COPY . .
 RUN dotnet restore
 RUN dotnet setversion 1.2.3
-ENTRYPOINT cat test-project.csproj
+ENTRYPOINT cat test-netcore-1.csproj

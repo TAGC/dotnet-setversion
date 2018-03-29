@@ -5,9 +5,9 @@ using System.Xml.Linq;
 
 namespace dotnet_setversion
 {
-    class Program
+    public static class Program
     {
-        static int Main(string[] args)
+        private static int Main(string[] args)
         {
             if (args.Length < 1)
             {

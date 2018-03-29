@@ -3,11 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-setversion", "dotnet-setversion\dotnet-setversion.csproj", "{4CEC4F68-49E1-4B0A-B154-722B1C96E829}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FE23C2A7-75C4-4071-B555-0AEB678A9770}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		docker-compose.yml = docker-compose.yml
+		GitVersion.yml = GitVersion.yml
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-project", "test-project\test-project.csproj", "{ABAC3B80-2415-41C8-B6F2-4C241A7DF7F8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3E276529-6591-44A4-9CB5-E913BCB5EBEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-project-netcore2", "test-project-netcore2\test-project-netcore2.csproj", "{3C37C00B-8AF0-4F99-B947-BEB554BAA4C6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2DC259B3-4ADB-4566-B424-2148BDF5B507}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-setversion", "src\dotnet-setversion\dotnet-setversion.csproj", "{4CEC4F68-49E1-4B0A-B154-722B1C96E829}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test-netcore-1", "test\test-netcore-1\test-netcore-1.csproj", "{ABAC3B80-2415-41C8-B6F2-4C241A7DF7F8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test-netcore-2", "test\test-netcore-2\test-netcore-2.csproj", "{3C37C00B-8AF0-4F99-B947-BEB554BAA4C6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test-issue-8", "test\test-issue-8\test-issue-8.csproj", "{32FC873A-C2C8-44D4-AB7B-A108BA0CB3BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,8 +40,21 @@ Global
 		{3C37C00B-8AF0-4F99-B947-BEB554BAA4C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C37C00B-8AF0-4F99-B947-BEB554BAA4C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C37C00B-8AF0-4F99-B947-BEB554BAA4C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32FC873A-C2C8-44D4-AB7B-A108BA0CB3BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32FC873A-C2C8-44D4-AB7B-A108BA0CB3BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32FC873A-C2C8-44D4-AB7B-A108BA0CB3BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32FC873A-C2C8-44D4-AB7B-A108BA0CB3BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4CEC4F68-49E1-4B0A-B154-722B1C96E829} = {3E276529-6591-44A4-9CB5-E913BCB5EBEE}
+		{ABAC3B80-2415-41C8-B6F2-4C241A7DF7F8} = {2DC259B3-4ADB-4566-B424-2148BDF5B507}
+		{3C37C00B-8AF0-4F99-B947-BEB554BAA4C6} = {2DC259B3-4ADB-4566-B424-2148BDF5B507}
+		{32FC873A-C2C8-44D4-AB7B-A108BA0CB3BA} = {2DC259B3-4ADB-4566-B424-2148BDF5B507}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0975BA37-A42F-4032-8A10-F7F3E54ACF75}
 	EndGlobalSection
 EndGlobal

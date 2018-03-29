@@ -1,4 +1,18 @@
-mode: ContinuousDeployment
-branches: {}
-ignore:
-  sha: []
+next-version: 1.0.3
+branches:
+  master:
+    increment: None
+  releases?[/-]:
+    increment: None
+  feature:
+    increment: None
+  pull-request:
+    increment: None
+  hotfix:
+    increment: None
+  support:
+    increment: None
+  develop:
+    increment: None
+  master:
+    increment: None

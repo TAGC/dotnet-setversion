@@ -2,43 +2,107 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using CommandLine;
 
 namespace dotnet_setversion
 {
-    public static class Program
+    internal static class Program
     {
-        private static int Main(string[] args)
+        internal const int ExitSuccess = 0;
+        internal const int ExitFailure = 1;
+
+        internal static int Main(params string[] args)
         {
-            if (args.Length < 1)
+            return Parser.Default.ParseArguments<Options>(args)
+                .MapResult(Run, errs => int.MinValue);
+        }
+
+        private static int Run(Options options)
+        {
+            if (options.Recursive && options.CsprojFile != null)
             {
-                Console.WriteLine("Missing version string");
-                return 1;
+                Console.WriteLine("The --recursive option and csprojFile argument are mutually exclusive.");
+                return ExitFailure;
             }
 
-            var versionString = args[0];
-            var currentDirectory = Directory.GetCurrentDirectory();
-            var csprojFile = Directory.EnumerateFileSystemEntries(currentDirectory, "*.csproj", SearchOption.TopDirectoryOnly).First();
-            var document = XDocument.Load(csprojFile);
+            return options.Recursive ? RunRecursive(options.Version) : Run(options.Version, options.CsprojFile);
+        }
 
-            // Search for an existing version node in the csproj file.
+        private static int Run(string version, string csprojFile)
+        {
+            if (csprojFile == null)
+            {
+                var csprojFiles = GetCsprojFiles(false);
+                if (!CheckCsprojFiles(csprojFiles, false, out var exitCode)) return exitCode;
+                csprojFile = csprojFiles[0];
+            }
+
+            if (!File.Exists(csprojFile))
+            {
+                Console.WriteLine($"Project file '{csprojFile}' does not exist.");
+                return ExitFailure;
+            }
+
+            SetVersion(version, csprojFile);
+            PrintSuccessString(version, csprojFile);
+            return ExitSuccess;
+        }
+
+        private static int RunRecursive(string version)
+        {
+            var csprojFiles = GetCsprojFiles(true);
+            if (!CheckCsprojFiles(csprojFiles, true, out var exitCode)) return exitCode;
+
+            foreach (var csprojFile in csprojFiles)
+            {
+                SetVersion(version, csprojFile);
+            }
+            PrintSuccessString(version, csprojFiles);
+            return ExitSuccess;
+        }
+
+        private static string[] GetCsprojFiles(bool recursive) => Directory
+            .EnumerateFileSystemEntries(Directory.GetCurrentDirectory(), "*.csproj",
+                recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).ToArray();
+
+        private static bool CheckCsprojFiles(string[] csprojFiles, bool allowMultiple, out int exitCode)
+        {
+            if (csprojFiles.Length == 0)
+            {
+                Console.WriteLine("Specify a project file. The current working directory does not contain a project file.");
+                exitCode = ExitFailure;
+                return false;
+            }
+            if (!allowMultiple && csprojFiles.Length > 1)
+            {
+                Console.WriteLine("Specify which project file to use because this folder contains more than one project file.");
+                exitCode = ExitFailure;
+                return false;
+            }
+            exitCode = ExitSuccess;
+            return true;
+        }
+
+        private static void SetVersion(string version, string csprojFile)
+        {
+            if (version == null) throw new ArgumentNullException(nameof(version));
+            if (csprojFile == null) throw new ArgumentNullException(nameof(csprojFile));
+
+            var document = XDocument.Load(csprojFile);
             var projectNode = document.GetOrCreateElement("Project");
             var versionNode = projectNode
-                .Elements("PropertyGroup")
-                .SelectMany(it => it.Elements("Version"))
-                .SingleOrDefault();
-
-            // If no version node exists, create it.
-            if (versionNode == null)
-            {
-                versionNode = projectNode
-                    .GetOrCreateElement("PropertyGroup")
-                    .GetOrCreateElement("Version");
-            }
-
-            versionNode.SetValue(versionString);
+                                  .Elements("PropertyGroup")
+                                  .SelectMany(it => it.Elements("Version"))
+                                  .SingleOrDefault() ?? projectNode
+                                  .GetOrCreateElement("PropertyGroup")
+                                  .GetOrCreateElement("Version");
+            versionNode.SetValue(version);
             File.WriteAllText(csprojFile, document.ToString());
-            Console.WriteLine($"Setting version: {versionString}");
-            return 0;
+        }
+
+        private static void PrintSuccessString(string version, params string[] files)
+        {
+            Console.WriteLine($"Set version to {version} in {string.Join(Environment.NewLine, files)}");
         }
     }
 
@@ -50,11 +114,9 @@ namespace dotnet_setversion
         public static XElement GetOrCreateElement(this XContainer container, string name)
         {
             var element = container.Element(name);
-            if (element == null)
-            {
-                element = new XElement(name);
-                container.Add(element);
-            }
+            if (element != null) return element;
+            element = new XElement(name);
+            container.Add(element);
             return element;
         }
     }

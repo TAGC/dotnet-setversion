@@ -4,12 +4,15 @@ SLN_DIR=$(pwd)
 TOOL_PROJ_DIR=$SLN_DIR/src/dotnet-setversion
 NUGET_CONFIG_TEMPLATE=$SLN_DIR/test/NuGet.config.template
 
+# Run integration tests
+dotnet test test/integration || exit 1
+
 # Pack the tool
 dotnet pack $TOOL_PROJ_DIR -c Release -o out
 
 # Copy required files and run test defined by each project
 err=0
-for d in `find test/* -maxdepth 0 -type d`
+for d in `find test/docker/* -maxdepth 0 -type d`
 do
     echo "Testing: $d"
     cp -r $TOOL_PROJ_DIR/out $d

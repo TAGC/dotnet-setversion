@@ -7,6 +7,6 @@
     <Copyright>MIT</Copyright>
   </PropertyGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-setversion" Version="*" />
+    <DotNetCliToolReference Include="dotnet-setversion" Version="1.0.0" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,0 @@
-FROM microsoft/dotnet:2.0-sdk
-WORKDIR /app
-COPY . .
-RUN chmod +x ./test.sh
-ENTRYPOINT ./test.sh

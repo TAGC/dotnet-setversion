@@ -26,7 +26,20 @@ With your project root folder set as the current working directory, invoke the f
 $ dotnet setversion 0.1.2-beta0001
 ```
 
-Replace '0.1.2-beta0001' with any valid version string.
+You can also update the version information of a specific project file by invoking like this:
+
+```
+$ dotnet setversion 0.1.2-beta0001 MyProject.csproj
+```
+
+If you happen to have a rather big repo including several project files and you want to update them all at once, you can use the `--recursive` option.  
+This will update any project file in and below the current working directory.
+
+```
+$ dotnet setversion -r 0.1.2-beta0001
+```
+
+For each example, replace '0.1.2-beta0001' with any valid version string.
 
 With [GitVersion](https://github.com/GitTools/GitVersion) installed, you can do the following as well:
 

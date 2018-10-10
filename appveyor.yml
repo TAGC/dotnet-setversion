@@ -4,18 +4,15 @@ branches:
   - master
   - develop
 install:
-  - docker version
   - cinst gitversion.portable -y
 before_build:
   - nuget restore
   - ps: $env:VERSION=$(gitversion /showvariable NuGetVersionV2)
-  - ps: $env:TEST_VERSION=$(gitversion /showvariable MajorMinorPatch)
 build_script:
   - ps: dotnet restore
   - ps: cd src/dotnet-setversion; dotnet setversion $env:VERSION; dotnet pack -c Release -o release/; cd ../..
 test_script:
-  - ps: cd src/dotnet-setversion; dotnet setversion $env:TEST_VERSION; cd ../..
-  - ps: test/e2e.ps1
+  - ps: dotnet test test/*
 artifacts:
   path: src/dotnet-setversion/release/*.nupkg
   name: NuGet packages

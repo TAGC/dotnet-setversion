@@ -3,9 +3,8 @@
     <Description>A CLI tool to set/update the Version property in csproj files</Description>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>netcoreapp1.0;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
-    <Author>ThymineC</Author>
     <Copyright>Copyright 2018 ThymineC</Copyright>
-    <Authors>ThymineC</Authors>
+    <Authors>ThymineC; Skulblaka</Authors>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/TAGC/dotnet-setversion</PackageProjectUrl>
     <RepositoryUrl>git@github.com:TAGC/dotnet-setversion.git</RepositoryUrl>

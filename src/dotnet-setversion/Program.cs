@@ -100,9 +100,19 @@ namespace dotnet_setversion
             File.WriteAllText(csprojFile, document.ToString());
         }
 
+        private static void PrintSuccessString(string version, string file)
+        {
+            Console.WriteLine($"Set version to {version} in {file}");
+        }
+
         private static void PrintSuccessString(string version, params string[] files)
         {
-            Console.WriteLine($"Set version to {version} in {string.Join(Environment.NewLine, files)}");
+            Console.WriteLine($"Set version to {version} in:");
+
+            foreach (var file in files)
+            {
+                Console.WriteLine($"\t> {file}");
+            }
         }
     }
 

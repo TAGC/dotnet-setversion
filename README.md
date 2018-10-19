@@ -33,13 +33,7 @@ This will update any project file in and below the current working directory.
 $ setversion -r 0.1.2-beta0001
 ```
 
-For each example, replace '0.1.2-beta0001' with any valid version string.
-
-With [GitVersion](https://github.com/GitTools/GitVersion) installed, you can do the following as well:
-
-```
-$ dotnet $(gitversion -showvariable NugetVersionV2)
-```
+For each example, replace '0.1.2-beta0001' with any valid version string or, when having [GitVersion](https://github.com/GitTools/GitVersion) installed, with `$(GitVersion -ShowVariable NuGetVersionV2)` to use your current version automatically.
 
 This (or something similar) can of course be done during a continuous integration build, which is the main intention behind developing this project.
 

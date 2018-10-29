@@ -39,7 +39,7 @@ This (or something similar) can of course be done during a continuous integratio
 
 ## Migrating from 1.* to 2.*
 
-**dotnet-setversion** used to be a [per-project tool](https://docs.microsoft.com/en-us/dotnet/core/tools/extensibility#per-project-based-extensibility), but has now been reworked as [.NET Core Global Tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools).  
+**dotnet-setversion** used to be a [per-project tool](https://docs.microsoft.com/en-us/dotnet/core/tools/extensibility#per-project-based-extensibility), but has now been reworked as a [.NET Core Global Tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools).  
 As a consequence of this, you have to remove the `<DotNetCliToolReference>` element referencing **dotnet-setversion** or you'll get an error when running `dotnet restore`.
 
 Depending on your build strategy, you have to install **setversion** once on your build agent (see [Usage](#usage)) or integrate the install command into your build script.

@@ -19,7 +19,7 @@ namespace dotnet_setversion
             "Path to a csproj file to apply the given version. Mutually exclusive to the --recursive option.")]
         public string CsprojFile { get; set; }
 
-        [Usage(ApplicationAlias = "dotnet setversion")]
+        [Usage(ApplicationAlias = "setversion")]
         public static IEnumerable<Example> Examples
         {
             get

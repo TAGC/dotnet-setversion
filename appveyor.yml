@@ -3,6 +3,7 @@ branches:
   only:
   - master
   - develop
+  - /release\/.+/
 install:
   - cinst gitversion.portable -y
 before_build:

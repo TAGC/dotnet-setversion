@@ -35,7 +35,7 @@ $ setversion -r 0.1.2-beta0001
 
 For each example, replace '0.1.2-beta0001' with any valid version string or, when having [GitVersion](https://github.com/GitTools/GitVersion) installed, with `$(GitVersion -ShowVariable NuGetVersionV2)` to use your current version automatically.
 
-This (or something similar) can of course be done during a continuous integration build, which is the main intention behind developing this project.
+This (or something similar) can of course be done during a continuous integration build, which is the main intention behind developing this project. This tool depends on itself for its own version management during CI builds, so you can use it as a reference.
 
 ## Migrating from 1.* to 2.*
 

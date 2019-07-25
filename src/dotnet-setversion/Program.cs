@@ -123,7 +123,13 @@ namespace dotnet_setversion
         /// </remarks>
         public static XElement GetOrCreateElement(this XContainer container, string name)
         {
-            var element = container.Element(name);
+            // Checks the root node as well as children
+            // This prevents bombing out on solutions with 
+            // msbuild style projects in it.
+            var element = ((XElement)container.Nodes().FirstOrDefault(n => n is XElement));
+            if (element?.Name.LocalName == name) return element;
+
+            element = container.Element(name);
             if (element != null) return element;
             element = new XElement(name);
             container.Add(element);

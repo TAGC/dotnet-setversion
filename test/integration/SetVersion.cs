@@ -71,7 +71,7 @@ namespace integration
 
             Assert.Equal(0, exitCode);
             _testHelper.CheckCsprojFile(version, csprojFileA);
-            // check the other file remains untouched.
+            // Check the other file remains untouched.
             Assert.Equal(_testHelper.ExampleCsprojFile, File.ReadAllText(csprojFileB));
         }
 
@@ -118,6 +118,37 @@ namespace integration
             var exitCode = Program.Main("-r", "1.2.3", "void.csproj");
 
             Assert.NotEqual(0, exitCode);
+        }
+
+        [Fact]
+        public void SetVersion_ReturnsNonZero_WhenProjectUsesMsBuildStyleCsProjFile()
+        {
+            var csprojFile = Path.GetTempFileName();
+            var workingDirectory = _testHelper.ChangeToRandomDirectory();
+            _testHelper.CopyExampleFile(csprojFile, msBuildStyle: true);
+
+            var exitCode = Program.Main("1.2.3", csprojFile);
+
+            Assert.NotEqual(0, exitCode);
+        }
+
+        [Fact]
+        public void SetVersion_SkipsMsBuildStyleProjects_WhenRunRecursively()
+        {
+            const string newStyleProject = "New Style.csproj";
+            const string msBuildStyleProject = "MSBuild Style.csproj";
+            const string version = "1.2.3";
+            _testHelper.ChangeToRandomDirectory();
+            _testHelper.CopyExampleFile(newStyleProject, msBuildStyle: false);
+            _testHelper.CopyExampleFile(msBuildStyleProject, msBuildStyle: true);
+
+            var exitCode = Program.Main("-r", version);
+
+            Assert.Equal(0, exitCode);
+            // Check the new-style project got updated.
+            _testHelper.CheckCsprojFile(version, newStyleProject);
+            // Check the msbuild-style project remains untouched.
+            Assert.Equal(_testHelper.ExampleMsBuildStyleCsprojFile, File.ReadAllText(msBuildStyleProject));
         }
     }
 }

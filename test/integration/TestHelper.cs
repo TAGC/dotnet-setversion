@@ -12,9 +12,11 @@ namespace integration
   </PropertyGroup>
 </Project>";
 
-        public void CopyExampleFile(string path, bool overwrite = false)
+        public string ExampleMsBuildStyleCsprojFile { get; } = "<TODO></TODO>";
+
+        public void CopyExampleFile(string path, bool overwrite = false, bool msBuildStyle = false)
         {
-            File.WriteAllText(path, ExampleCsprojFile);
+            File.WriteAllText(path, msBuildStyle ? ExampleMsBuildStyleCsprojFile : ExampleCsprojFile);
         }
 
         public void CheckCsprojFile(string version, params string[] files)

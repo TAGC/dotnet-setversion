@@ -13,8 +13,12 @@ before_build:
 build_script:
   - ps: dotnet restore
   - ps: cd src/dotnet-setversion; setversion $env:VERSION; dotnet pack -c Release -o release/; cd ../..
+before_test:
+  - ps: cd test/integration;
 test_script:
-  - ps: cd test/integration; dotnet test -c Release; cd ../..
+  - ps: dotnet test -c Release;
+after_test:
+  - ps: cd ../..
 artifacts:
   path: src/dotnet-setversion/release/*.nupkg
   name: NuGet packages

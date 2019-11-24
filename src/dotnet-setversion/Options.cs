@@ -40,6 +40,7 @@ namespace dotnet_setversion
                     new Options {Version = "1.2.3", CsprojFile = "MyProject.csproj"});
                 yield return new Example("Large repo with multiple csproj files in nested directories",
                     new UnParserSettings {PreferShortName = true}, new Options {Version = "1.2.3", Recursive = true});
+                yield return new Example("Pulling the version from a file", new Options {Version = "@sem.ver"});
             }
         }
     }

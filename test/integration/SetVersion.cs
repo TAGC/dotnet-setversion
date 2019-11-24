@@ -153,5 +153,17 @@ namespace integration
             Assert.Equal(0, exitCode);
             _testHelper.CheckCsprojFile(version, csprojFile);
         }
+
+        [Fact]
+        public void SetVersion_ReturnsNonZero_WhenExtractingVersionFromNonExistentFile()
+        {
+            var workingDirectory = _testHelper.ChangeToRandomDirectory();
+            var csprojFile = Path.Combine(workingDirectory, "Project.csproj");
+            _testHelper.CopyExampleFile(csprojFile);
+
+            var exitCode = Program.Main("@non_existent_file");
+
+            Assert.NotEqual(0, exitCode);
+        }
     }
 }

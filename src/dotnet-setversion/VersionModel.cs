@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace dotnet_setversion
+﻿namespace dotnet_setversion
 {
     public class VersionModel
     {
         public VersionModelDetail Version { get; set; }
+        
         public override string ToString()
         {
             if (Version != null)
@@ -14,7 +11,7 @@ namespace dotnet_setversion
                 return $"{Version.Major}.{Version.Minor}.{Version.Patch}";
             }
 
-            return "";
+            return string.Empty;
         }
     }
 

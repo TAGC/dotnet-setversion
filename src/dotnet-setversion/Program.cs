@@ -53,6 +53,7 @@ namespace dotnet_setversion
                 Console.WriteLine($"{ex.Message}. Filename: {ex.FileName}");
                 return ExitFailure;
             }
+
             PrintSuccessString(version, csprojFile);
             return ExitSuccess;
         }
@@ -74,6 +75,7 @@ namespace dotnet_setversion
                     return ExitFailure;
                 }
             }
+
             PrintSuccessString(version, csprojFiles);
             return ExitSuccess;
         }
@@ -113,29 +115,35 @@ namespace dotnet_setversion
                                   .SingleOrDefault() ?? projectNode
                                   .GetOrCreateElement("PropertyGroup")
                                   .GetOrCreateElement("Version");
+                                  
             if (version.StartsWith("@"))
             {
-                // Read version number from a file
-                var filename = version.Substring(1);
-                if (!File.Exists(filename))
-                {
-                    throw new FileNotFoundException("The filename specified in the version parameter was not found", filename);
-                }
-
-                var versionFileText = File.ReadAllText(filename);
-                if (versionFileText.StartsWith("{"))
-                {
-                    var versionModel = JsonSerializer.Deserialize<VersionModel>(versionFileText);
-                    version = versionModel.ToString();
-                }
-                else
-                {
-                    // Simple Version Number
-                    version = versionFileText;
-                }
+                ExtractVersionFromFile(ref version);
             }
+
             versionNode.SetValue(version);
             File.WriteAllText(csprojFile, document.ToString());
+        }
+
+        private static void ExtractVersionFromFile(ref string version)
+        {
+            var filename = version.Substring(1);
+            if (!File.Exists(filename))
+            {
+                throw new FileNotFoundException("The filename specified in the version parameter was not found", filename);
+            }
+
+            var versionFileText = File.ReadAllText(filename);
+            try
+            {
+                var versionModel = JsonSerializer.Deserialize<VersionModel>(versionFileText);
+                version = versionModel.ToString();
+            }
+            catch (JsonException)
+            {
+                // Simple Version Number
+                version = versionFileText;
+            }
         }
 
         private static void PrintSuccessString(string version, string file)

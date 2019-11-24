@@ -11,7 +11,18 @@ namespace dotnet_setversion
             "Mutually exclusive to the csprojFile argument.")]
         public bool Recursive { get; set; }
 
-        [Value(0, MetaName = "version", HelpText = "The version to apply to the given csproj file(s).",
+        /*
+{
+  "Version": {
+    "Major": 2,
+    "Minor": 2,
+    "Patch": 0
+  }
+}         */
+        [Value(0, MetaName = "version", HelpText = "The version to apply to the given csproj file(s). A filename " + 
+                "can also be referenced by prepending an @filename to read the version number from the file." +
+                "The file is expected to contain either a simple version or a JSON value in the following format:" +
+                "{Version: {Major:Value, Minor:Value, Patch:Value}}",
             Required = true)]
         public string Version { get; set; }
 

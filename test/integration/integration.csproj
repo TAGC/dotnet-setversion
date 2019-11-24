@@ -25,4 +25,6 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties version_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>

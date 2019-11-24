@@ -119,5 +119,39 @@ namespace integration
 
             Assert.NotEqual(0, exitCode);
         }
+
+        [Fact]
+        public void ApplyingVersion_WithoutSpecifyingCsprojFileWithSimpleVersionFromFile()
+        {
+            const string version = "1.2.3";
+            const string versionFilename = "@sem.ver";
+            var workingDirectory = _testHelper.ChangeToRandomDirectory();
+            using (var semFileWriter = File.CreateText(Path.Combine(workingDirectory, "sem.ver")))
+            {
+                semFileWriter.Write(version);
+            }
+            var csprojFile = Path.Combine(workingDirectory, "Project.csproj");
+            _testHelper.CopyExampleFile(csprojFile);
+
+            var exitCode = Program.Main(versionFilename);
+
+            Assert.Equal(0, exitCode);
+            _testHelper.CheckCsprojFile(version, csprojFile);
+        }
+
+        [Fact]
+        public void ApplyingVersion_WithoutSpecifyingCsprojFileWithVersionFromJsonFile()
+        {
+            const string version = "1.2.3";
+            const string versionFilename = "@sem.ver";
+            var workingDirectory = _testHelper.ChangeToRandomDirectory();
+            var csprojFile = Path.Combine(workingDirectory, "Project.csproj");
+            _testHelper.CopyExampleFile(csprojFile);
+            _testHelper.CopyExampleSemVerFile("sem.ver");
+            var exitCode = Program.Main(versionFilename);
+
+            Assert.Equal(0, exitCode);
+            _testHelper.CheckCsprojFile(version, csprojFile);
+        }
     }
 }

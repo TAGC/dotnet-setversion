@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Xml.Linq;
 using CommandLine;
 
@@ -43,7 +44,15 @@ namespace dotnet_setversion
                 return ExitFailure;
             }
 
-            SetVersion(version, csprojFile);
+            try
+            {
+                SetVersion(version, csprojFile);
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine($"{ex.Message}. Filename: {ex.FileName}");
+                return ExitFailure;
+            }
             PrintSuccessString(version, csprojFile);
             return ExitSuccess;
         }
@@ -55,7 +64,15 @@ namespace dotnet_setversion
 
             foreach (var csprojFile in csprojFiles)
             {
-                SetVersion(version, csprojFile);
+                try
+                {
+                    SetVersion(version, csprojFile);
+                }
+                catch (FileNotFoundException ex)
+                {
+                    Console.WriteLine($"{ex.Message}. Filename: {ex.FileName}");
+                    return ExitFailure;
+                }
             }
             PrintSuccessString(version, csprojFiles);
             return ExitSuccess;
@@ -96,6 +113,27 @@ namespace dotnet_setversion
                                   .SingleOrDefault() ?? projectNode
                                   .GetOrCreateElement("PropertyGroup")
                                   .GetOrCreateElement("Version");
+            if (version.StartsWith("@"))
+            {
+                // Read version number from a file
+                var filename = version.Substring(1);
+                if (!File.Exists(filename))
+                {
+                    throw new FileNotFoundException("The filename specified in the version parameter was not found", filename);
+                }
+
+                var versionFileText = File.ReadAllText(filename);
+                if (versionFileText.StartsWith("{"))
+                {
+                    var versionModel = JsonSerializer.Deserialize<VersionModel>(versionFileText);
+                    version = versionModel.ToString();
+                }
+                else
+                {
+                    // Simple Version Number
+                    version = versionFileText;
+                }
+            }
             versionNode.SetValue(version);
             File.WriteAllText(csprojFile, document.ToString());
         }

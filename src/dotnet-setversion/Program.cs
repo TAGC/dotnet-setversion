@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Xml.Linq;
 using CommandLine;
 
@@ -32,14 +33,22 @@ namespace dotnet_setversion
         {
             if (csprojFile == null)
             {
-                var csprojFiles = GetCsprojFiles(false);
-                if (!CheckCsprojFiles(csprojFiles, false, out var exitCode)) return exitCode;
+                var csprojFiles = GetCsprojFiles(recursive: false);
+                if (!CheckCsprojFiles(csprojFiles, allowMultiple: false))
+                    return ExitFailure;
+                
                 csprojFile = csprojFiles[0];
             }
 
             if (!File.Exists(csprojFile))
             {
                 Console.WriteLine($"Project file '{csprojFile}' does not exist.");
+                return ExitFailure;
+            }
+
+            if (ShouldExtractVersionFromFile(version, out var versionFile) &&
+                !TryExtractVersionFromFile(versionFile, out version))
+            {
                 return ExitFailure;
             }
 
@@ -50,13 +59,21 @@ namespace dotnet_setversion
 
         private static int RunRecursive(string version)
         {
-            var csprojFiles = GetCsprojFiles(true);
-            if (!CheckCsprojFiles(csprojFiles, true, out var exitCode)) return exitCode;
+            var csprojFiles = GetCsprojFiles(recursive: true);
+            if (!CheckCsprojFiles(csprojFiles, allowMultiple: true))
+                return ExitFailure;
+
+            if (ShouldExtractVersionFromFile(version, out var versionFile) &&
+                !TryExtractVersionFromFile(versionFile, out version))
+            {
+                return ExitFailure;
+            }
 
             foreach (var csprojFile in csprojFiles)
             {
                 SetVersion(version, csprojFile);
             }
+
             PrintSuccessString(version, csprojFiles);
             return ExitSuccess;
         }
@@ -65,21 +82,57 @@ namespace dotnet_setversion
             .EnumerateFileSystemEntries(Directory.GetCurrentDirectory(), "*.csproj",
                 recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly).ToArray();
 
-        private static bool CheckCsprojFiles(string[] csprojFiles, bool allowMultiple, out int exitCode)
+        private static bool CheckCsprojFiles(string[] csprojFiles, bool allowMultiple)
         {
             if (csprojFiles.Length == 0)
             {
                 Console.WriteLine("Specify a project file. The current working directory does not contain a project file.");
-                exitCode = ExitFailure;
                 return false;
             }
+
             if (!allowMultiple && csprojFiles.Length > 1)
             {
                 Console.WriteLine("Specify which project file to use because this folder contains more than one project file.");
-                exitCode = ExitFailure;
                 return false;
             }
-            exitCode = ExitSuccess;
+
+            return true;
+        }
+
+        private static bool ShouldExtractVersionFromFile(string version, out string versionFile)
+        {
+            if (version.StartsWith("@"))
+            {
+                versionFile = version.Substring(1);
+                return true;
+            }
+
+            versionFile = null;
+            return false;
+        }
+
+        private static bool TryExtractVersionFromFile(string filename, out string version)
+        {
+            if (!File.Exists(filename))
+            {
+                Console.WriteLine($"The specified file to extract the version from was not found: {filename}");
+                version = null;
+                return false;
+            }
+
+            var versionFileText = File.ReadAllText(filename);
+
+            try
+            {
+                var versionModel = JsonSerializer.Deserialize<VersionModel>(versionFileText);
+                version = versionModel.ToString();
+            }
+            catch (JsonException)
+            {
+                // Simple Version Number
+                version = versionFileText;
+            }
+
             return true;
         }
 
@@ -91,11 +144,11 @@ namespace dotnet_setversion
             var document = XDocument.Load(csprojFile);
             var projectNode = document.GetOrCreateElement("Project");
             var versionNode = projectNode
-                                  .Elements("PropertyGroup")
-                                  .SelectMany(it => it.Elements("Version"))
-                                  .SingleOrDefault() ?? projectNode
-                                  .GetOrCreateElement("PropertyGroup")
-                                  .GetOrCreateElement("Version");
+                .Elements("PropertyGroup")
+                .SelectMany(it => it.Elements("Version"))
+                .SingleOrDefault() ?? projectNode
+                .GetOrCreateElement("PropertyGroup")
+                .GetOrCreateElement("Version");
             versionNode.SetValue(version);
             File.WriteAllText(csprojFile, document.ToString());
         }

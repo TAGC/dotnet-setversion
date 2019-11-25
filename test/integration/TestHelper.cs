@@ -12,9 +12,22 @@ namespace integration
   </PropertyGroup>
 </Project>";
 
+        public string ExampleSemVerFile { get; } = @"{
+""Version"": {
+    ""Major"": 1,
+    ""Minor"": 2,
+    ""Patch"": 3
+    }
+}";
+
         public void CopyExampleFile(string path, bool overwrite = false)
         {
             File.WriteAllText(path, ExampleCsprojFile);
+        }
+
+        public void CopyExampleSemVerFile(string path, bool overwrite = false)
+        {
+            File.WriteAllText(path, ExampleSemVerFile);
         }
 
         public void CheckCsprojFile(string version, params string[] files)

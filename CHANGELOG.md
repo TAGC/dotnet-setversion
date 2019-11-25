@@ -1,7 +1,7 @@
 # Change Log
 
-## [2.1.0](https://github.com/TAGC/dotnet-setversion/tree/2.1.0) (2019-11-25)
-[Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v2.0.0...2.1.0)
+## [v2.1.0](https://github.com/TAGC/dotnet-setversion/tree/v2.1.0) (2019-11-25)
+[Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v2.0.0...v2.1.0)
 
 **Implemented enhancements:**
 

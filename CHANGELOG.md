@@ -1,7 +1,14 @@
 # Change Log
 
-## [2.1.0](https://github.com/TAGC/dotnet-setversion/tree/2.1.0) (2019-11-25)
-[Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v2.0.0...2.1.0)
+## [v2.2.0](https://github.com/TAGC/dotnet-setversion/tree/v2.2.0) (2020-03-05)
+[Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v2.1.0...v2.2.0)
+
+**Implemented enhancements:**
+
+- Support for .NET Core 3.1 [\#17](https://github.com/TAGC/dotnet-setversion/issues/17)
+
+## [v2.1.0](https://github.com/TAGC/dotnet-setversion/tree/v2.1.0) (2019-11-25)
+[Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v2.0.0...v2.1.0)
 
 **Implemented enhancements:**
 

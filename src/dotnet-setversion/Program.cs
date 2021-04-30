@@ -120,7 +120,7 @@ namespace dotnet_setversion
                 return false;
             }
 
-            var versionFileText = File.ReadAllText(filename);
+            var versionFileText = File.ReadAllText(filename).Trim();
 
             try
             {

@@ -140,6 +140,25 @@ namespace integration
         }
 
         [Fact]
+        public void ApplyingVersion_WithSimpleVersionFromFile_WithTrailingNewLine()
+        {
+            const string version = "1.2.3\n";
+            const string versionFilename = "@sem.ver";
+            var workingDirectory = _testHelper.ChangeToRandomDirectory();
+            using (var semFileWriter = File.CreateText(Path.Combine(workingDirectory, "sem.ver")))
+            {
+                semFileWriter.Write(version);
+            }
+            var csprojFile = Path.Combine(workingDirectory, "Project.csproj");
+            _testHelper.CopyExampleFile(csprojFile);
+
+            var exitCode = Program.Main(versionFilename);
+
+            Assert.Equal(0, exitCode);
+            _testHelper.CheckCsprojFile("1.2.3", csprojFile);
+        }
+
+        [Fact]
         public void ApplyingVersion_WithoutSpecifyingCsprojFileWithVersionFromJsonFile()
         {
             const string version = "1.2.3";

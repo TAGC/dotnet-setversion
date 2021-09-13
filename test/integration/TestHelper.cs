@@ -8,7 +8,7 @@ namespace integration
         public string ExampleCsprojFile { get; } = @"<Project Sdk=""Microsoft.NET.Sdk"">
   <PropertyGroup>
     <Description>An example csproj file.</Description>
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net5.0</TargetFrameworks>
   </PropertyGroup>
 </Project>";
 

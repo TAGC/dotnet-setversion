@@ -1,8 +1,16 @@
 # Changelog
 
-## [2.3.0](https://github.com/TAGC/dotnet-setversion/tree/2.3.0) (2021-09-13)
+## [v2.4.0](https://github.com/TAGC/dotnet-setversion/tree/v2.4.0) (2021-12-02)
 
-[Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v2.2.1...2.3.0)
+[Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v2.3.0...v2.4.0)
+
+**Implemented enhancements:**
+
+- Support for .NET 6.0 [\#22](https://github.com/TAGC/dotnet-setversion/issues/22)
+
+## [v2.3.0](https://github.com/TAGC/dotnet-setversion/tree/v2.3.0) (2021-09-13)
+
+[Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v2.2.1...v2.3.0)
 
 **Implemented enhancements:**
 

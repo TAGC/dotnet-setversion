@@ -56,6 +56,19 @@ namespace integration
             Assert.Equal(0, exitCode);
             _testHelper.CheckCsprojFile(version, csprojFile);
         }
+        
+        [Fact]
+        public void ApplyingVersion_WithVersionPrefix()
+        {
+            var csprojFile = Path.GetTempFileName();
+            _testHelper.CopyExampleFile(csprojFile, true);
+            const string version = "1.2.3-123";
+
+            var exitCode = Program.Main(version, csprojFile, "-p");
+
+            Assert.Equal(0, exitCode);
+            _testHelper.CheckCsprojFile(version, csprojFile);
+        }
 
         [Fact]
         public void ApplyingVersions_WithMultipleProjectFilesInCurrentDirectory_WhenSpecifyingProjectFile()
@@ -104,6 +117,33 @@ namespace integration
             _testHelper.CopyExampleFile(moduleFileB);
 
             var exitCode = Program.Main("-r", version);
+
+            Assert.Equal(0, exitCode);
+            _testHelper.CheckCsprojFile(version, projectA);
+            _testHelper.CheckCsprojFile(version, projectB);
+            _testHelper.CheckCsprojFile(version, moduleFileA);
+            _testHelper.CheckCsprojFile(version, moduleFileB);
+        }
+        
+        [Fact]
+        public void ApplyingVersionPrefixToAllFiles_WhenRecursive()
+        {
+            const string projectA = "Project A.csproj";
+            const string projectB = "Project B.csproj";
+            const string moduleA = "Module A";
+            const string moduleB = "Module B";
+            const string version = "1.2.3-123";
+            var moduleFileA = Path.Combine(moduleA, moduleA + ".csproj");
+            var moduleFileB = Path.Combine(moduleB, moduleB + ".csproj");
+            _testHelper.ChangeToRandomDirectory();
+            _testHelper.CopyExampleFile(projectA);
+            _testHelper.CopyExampleFile(projectB);
+            Directory.CreateDirectory(moduleA);
+            Directory.CreateDirectory(moduleB);
+            _testHelper.CopyExampleFile(moduleFileA);
+            _testHelper.CopyExampleFile(moduleFileB);
+
+            var exitCode = Program.Main("-r", "-p", version);
 
             Assert.Equal(0, exitCode);
             _testHelper.CheckCsprojFile(version, projectA);

@@ -35,7 +35,12 @@ namespace integration
             foreach (var file in files)
             {
                 var content = File.ReadAllText(file);
-                Assert.Contains($"<Version>{version}</Version>", content);
+
+                var expectedVersionElement = content.Contains("Prefix")
+                    ? $"<VersionPrefix>{version}</VersionPrefix>"
+                    : $"<Version>{version}</Version>";
+                
+                Assert.Contains(expectedVersionElement, content);
             }
         }
 

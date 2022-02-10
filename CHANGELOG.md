@@ -1,6 +1,6 @@
 # Changelog
 
-## [v2.5.0](https://github.com/TAGC/dotnet-setversion/tree/v2.4.0) (2022-02-10)
+## [v2.5.0](https://github.com/TAGC/dotnet-setversion/tree/v2.5.0) (2022-02-10)
 
 [Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v2.4.0...v2.5.0)
 

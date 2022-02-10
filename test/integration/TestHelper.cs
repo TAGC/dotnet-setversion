@@ -30,17 +30,21 @@ namespace integration
             File.WriteAllText(path, ExampleSemVerFile);
         }
 
-        public void CheckCsprojFile(string version, params string[] files)
+        public void CheckCsprojFileForVersionElement(string version, params string[] files)
         {
             foreach (var file in files)
             {
                 var content = File.ReadAllText(file);
+                Assert.Contains($"<Version>{version}</Version>", content);
+            }
+        }
 
-                var expectedVersionElement = content.Contains("Prefix")
-                    ? $"<VersionPrefix>{version}</VersionPrefix>"
-                    : $"<Version>{version}</Version>";
-                
-                Assert.Contains(expectedVersionElement, content);
+        public void CheckCsprojFileForVersionPrefixElement(string version, params string[] files)
+        {
+            foreach (var file in files)
+            {
+                var content = File.ReadAllText(file);
+                Assert.Contains($"<VersionPrefix>{version}</VersionPrefix>", content);
             }
         }
 

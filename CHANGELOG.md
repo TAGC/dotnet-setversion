@@ -1,5 +1,13 @@
 # Changelog
 
+## [v2.5.0](https://github.com/TAGC/dotnet-setversion/tree/v2.4.0) (2022-02-10)
+
+[Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v2.4.0...v2.5.0)
+
+**Implemented enhancements:**
+
+- Add support for updating version prefix in csproj file  [\#23](https://github.com/TAGC/dotnet-setversion/pull/23)
+
 ## [v2.4.0](https://github.com/TAGC/dotnet-setversion/tree/v2.4.0) (2021-12-02)
 
 [Full Changelog](https://github.com/TAGC/dotnet-setversion/compare/v2.3.0...v2.4.0)

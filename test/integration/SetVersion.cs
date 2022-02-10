@@ -19,7 +19,7 @@ namespace integration
             var exitCode = Program.Main(version);
 
             Assert.Equal(0, exitCode);
-            _testHelper.CheckCsprojFile(version, csprojFile);
+            _testHelper.CheckCsprojFileForVersionElement(version, csprojFile);
         }
 
         [Fact]
@@ -54,7 +54,20 @@ namespace integration
             var exitCode = Program.Main(version, csprojFile);
 
             Assert.Equal(0, exitCode);
-            _testHelper.CheckCsprojFile(version, csprojFile);
+            _testHelper.CheckCsprojFileForVersionElement(version, csprojFile);
+        }
+        
+        [Fact]
+        public void ApplyingVersion_WithVersionPrefix()
+        {
+            var csprojFile = Path.GetTempFileName();
+            _testHelper.CopyExampleFile(csprojFile, true);
+            const string version = "1.2.3-123";
+
+            var exitCode = Program.Main(version, csprojFile, "-p");
+
+            Assert.Equal(0, exitCode);
+            _testHelper.CheckCsprojFileForVersionPrefixElement(version, csprojFile);
         }
 
         [Fact]
@@ -70,7 +83,7 @@ namespace integration
             var exitCode = Program.Main(version, csprojFileA);
 
             Assert.Equal(0, exitCode);
-            _testHelper.CheckCsprojFile(version, csprojFileA);
+            _testHelper.CheckCsprojFileForVersionElement(version, csprojFileA);
             // check the other file remains untouched.
             Assert.Equal(_testHelper.ExampleCsprojFile, File.ReadAllText(csprojFileB));
         }
@@ -106,10 +119,37 @@ namespace integration
             var exitCode = Program.Main("-r", version);
 
             Assert.Equal(0, exitCode);
-            _testHelper.CheckCsprojFile(version, projectA);
-            _testHelper.CheckCsprojFile(version, projectB);
-            _testHelper.CheckCsprojFile(version, moduleFileA);
-            _testHelper.CheckCsprojFile(version, moduleFileB);
+            _testHelper.CheckCsprojFileForVersionElement(version, projectA);
+            _testHelper.CheckCsprojFileForVersionElement(version, projectB);
+            _testHelper.CheckCsprojFileForVersionElement(version, moduleFileA);
+            _testHelper.CheckCsprojFileForVersionElement(version, moduleFileB);
+        }
+        
+        [Fact]
+        public void ApplyingVersionPrefixToAllFiles_WhenRecursive()
+        {
+            const string projectA = "Project A.csproj";
+            const string projectB = "Project B.csproj";
+            const string moduleA = "Module A";
+            const string moduleB = "Module B";
+            const string version = "1.2.3-123";
+            var moduleFileA = Path.Combine(moduleA, moduleA + ".csproj");
+            var moduleFileB = Path.Combine(moduleB, moduleB + ".csproj");
+            _testHelper.ChangeToRandomDirectory();
+            _testHelper.CopyExampleFile(projectA);
+            _testHelper.CopyExampleFile(projectB);
+            Directory.CreateDirectory(moduleA);
+            Directory.CreateDirectory(moduleB);
+            _testHelper.CopyExampleFile(moduleFileA);
+            _testHelper.CopyExampleFile(moduleFileB);
+
+            var exitCode = Program.Main("-r", "-p", version);
+
+            Assert.Equal(0, exitCode);
+            _testHelper.CheckCsprojFileForVersionPrefixElement(version, projectA);
+            _testHelper.CheckCsprojFileForVersionPrefixElement(version, projectB);
+            _testHelper.CheckCsprojFileForVersionPrefixElement(version, moduleFileA);
+            _testHelper.CheckCsprojFileForVersionPrefixElement(version, moduleFileB);
         }
 
         [Fact]
@@ -136,7 +176,7 @@ namespace integration
             var exitCode = Program.Main(versionFilename);
 
             Assert.Equal(0, exitCode);
-            _testHelper.CheckCsprojFile(version, csprojFile);
+            _testHelper.CheckCsprojFileForVersionElement(version, csprojFile);
         }
 
         [Fact]
@@ -155,7 +195,7 @@ namespace integration
             var exitCode = Program.Main(versionFilename);
 
             Assert.Equal(0, exitCode);
-            _testHelper.CheckCsprojFile("1.2.3", csprojFile);
+            _testHelper.CheckCsprojFileForVersionElement("1.2.3", csprojFile);
         }
 
         [Fact]
@@ -170,7 +210,7 @@ namespace integration
             var exitCode = Program.Main(versionFilename);
 
             Assert.Equal(0, exitCode);
-            _testHelper.CheckCsprojFile(version, csprojFile);
+            _testHelper.CheckCsprojFileForVersionElement(version, csprojFile);
         }
 
         [Fact]

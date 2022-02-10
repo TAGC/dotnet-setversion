@@ -11,6 +11,7 @@ namespace dotnet_setversion
     {
         internal const int ExitSuccess = 0;
         internal const int ExitFailure = 1;
+        internal static bool UseVersionPrefix = false;
 
         internal static int Main(params string[] args)
         {
@@ -25,6 +26,8 @@ namespace dotnet_setversion
                 Console.WriteLine("The --recursive option and csprojFile argument are mutually exclusive.");
                 return ExitFailure;
             }
+
+            UseVersionPrefix = options.VersionPrefix;
 
             return options.Recursive ? RunRecursive(options.Version) : Run(options.Version, options.CsprojFile);
         }
@@ -141,14 +144,16 @@ namespace dotnet_setversion
             if (version == null) throw new ArgumentNullException(nameof(version));
             if (csprojFile == null) throw new ArgumentNullException(nameof(csprojFile));
 
+            var versionElement = UseVersionPrefix ? "VersionPrefix" : "Version";
+
             var document = XDocument.Load(csprojFile);
             var projectNode = document.GetOrCreateElement("Project");
             var versionNode = projectNode
                 .Elements("PropertyGroup")
-                .SelectMany(it => it.Elements("Version"))
+                .SelectMany(it => it.Elements(versionElement))
                 .SingleOrDefault() ?? projectNode
                 .GetOrCreateElement("PropertyGroup")
-                .GetOrCreateElement("Version");
+                .GetOrCreateElement(versionElement);
             versionNode.SetValue(version);
             File.WriteAllText(csprojFile, document.ToString());
         }

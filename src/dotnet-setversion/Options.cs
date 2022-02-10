@@ -29,7 +29,11 @@ namespace dotnet_setversion
         [Value(1, MetaName = "csprojFile", Required = false, HelpText =
             "Path to a csproj file to apply the given version. Mutually exclusive to the --recursive option.")]
         public string CsprojFile { get; set; }
-
+        
+        [Option('p', "prefix", Default = false, HelpText = 
+            "Set version using the VersionPrefix element for csproj files.")]
+        public bool VersionPrefix { get; set; }
+        
         [Usage(ApplicationAlias = "setversion")]
         public static IEnumerable<Example> Examples
         {

@@ -1,4 +1,4 @@
-next-version: 2.5.0
+next-version: 2.6.0
 branches:
   master:
     increment: None
@@ -13,6 +13,4 @@ branches:
   support:
     increment: None
   develop:
-    increment: None
-  master:
     increment: None

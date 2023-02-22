@@ -14,7 +14,7 @@
     <RepositoryUrl>git@github.com:TAGC/dotnet-setversion.git</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="CommandLineParser" Version="2.2.1" />
-    <PackageReference Include="System.Text.Json" Version="4.6.0" />
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="System.Text.Json" Version="[5.0.2,6)" />
   </ItemGroup>
 </Project>

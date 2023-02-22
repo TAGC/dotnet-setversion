@@ -20,11 +20,14 @@ namespace integration
     }
 }";
 
-        public string ChangeToRandomDirectory()
+        public void CopyExampleFile(string path, bool overwrite = false)
         {
-            var path = GetRandomDirectory();
-            Directory.SetCurrentDirectory(path);
-            return path;
+            File.WriteAllText(path, ExampleCsprojFile);
+        }
+
+        public void CopyExampleSemVerFile(string path, bool overwrite = false)
+        {
+            File.WriteAllText(path, ExampleSemVerFile);
         }
 
         public void CheckCsprojFileForVersionElement(string version, params string[] files)
@@ -45,20 +48,17 @@ namespace integration
             }
         }
 
-        public void CopyExampleFile(string path, bool overwrite = false)
-        {
-            File.WriteAllText(path, ExampleCsprojFile);
-        }
-
-        public void CopyExampleSemVerFile(string path, bool overwrite = false)
-        {
-            File.WriteAllText(path, ExampleSemVerFile);
-        }
-
         public string GetRandomDirectory()
         {
             var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(path);
+            return path;
+        }
+
+        public string ChangeToRandomDirectory()
+        {
+            var path = GetRandomDirectory();
+            Directory.SetCurrentDirectory(path);
             return path;
         }
     }

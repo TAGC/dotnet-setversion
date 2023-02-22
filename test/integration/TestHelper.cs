@@ -5,8 +5,6 @@ namespace integration
 {
     public class TestHelper
     {
-        #region Properties
-
         public string ExampleCsprojFile { get; } = @"<Project Sdk=""Microsoft.NET.Sdk"">
   <PropertyGroup>
     <Description>An example csproj file.</Description>
@@ -21,10 +19,6 @@ namespace integration
     ""Patch"": 3
     }
 }";
-
-        #endregion Properties
-
-        #region Methods
 
         public string ChangeToRandomDirectory()
         {
@@ -67,7 +61,5 @@ namespace integration
             Directory.CreateDirectory(path);
             return path;
         }
-
-        #endregion Methods
     }
 }

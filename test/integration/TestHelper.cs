@@ -5,10 +5,12 @@ namespace integration
 {
     public class TestHelper
     {
+        #region Properties
+
         public string ExampleCsprojFile { get; } = @"<Project Sdk=""Microsoft.NET.Sdk"">
   <PropertyGroup>
     <Description>An example csproj file.</Description>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net7.0</TargetFrameworks>
   </PropertyGroup>
 </Project>";
 
@@ -20,14 +22,15 @@ namespace integration
     }
 }";
 
-        public void CopyExampleFile(string path, bool overwrite = false)
-        {
-            File.WriteAllText(path, ExampleCsprojFile);
-        }
+        #endregion Properties
 
-        public void CopyExampleSemVerFile(string path, bool overwrite = false)
+        #region Methods
+
+        public string ChangeToRandomDirectory()
         {
-            File.WriteAllText(path, ExampleSemVerFile);
+            var path = GetRandomDirectory();
+            Directory.SetCurrentDirectory(path);
+            return path;
         }
 
         public void CheckCsprojFileForVersionElement(string version, params string[] files)
@@ -48,6 +51,16 @@ namespace integration
             }
         }
 
+        public void CopyExampleFile(string path, bool overwrite = false)
+        {
+            File.WriteAllText(path, ExampleCsprojFile);
+        }
+
+        public void CopyExampleSemVerFile(string path, bool overwrite = false)
+        {
+            File.WriteAllText(path, ExampleSemVerFile);
+        }
+
         public string GetRandomDirectory()
         {
             var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
@@ -55,11 +68,6 @@ namespace integration
             return path;
         }
 
-        public string ChangeToRandomDirectory()
-        {
-            var path = GetRandomDirectory();
-            Directory.SetCurrentDirectory(path);
-            return path;
-        }
+        #endregion Methods
     }
 }

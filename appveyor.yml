@@ -10,6 +10,7 @@ install:
 before_build:
   - nuget restore
   - ps: $env:VERSION=$(gitversion /showvariable NuGetVersionV2)
+  - ps: cp README.md src/dotnet-setversion/README.md
 build_script:
   - ps: dotnet restore
   - ps: cd src/dotnet-setversion; setversion $env:VERSION; dotnet pack -c Release -o release/; cd ../..

@@ -5,7 +5,7 @@ branches:
   - develop
   - /release\/.+/
 install:
-  - cinst gitversion.portable -y
+  - choco install gitversion.portable -y
   - ps: dotnet tool install --global dotnet-setversion
 before_build:
   - nuget restore

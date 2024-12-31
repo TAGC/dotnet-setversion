@@ -5,11 +5,16 @@ branches:
   - develop
   - /release\/.+/
 install:
-  - cinst gitversion.portable -y
+  - choco install gitversion.portable -y
   - ps: dotnet tool install --global dotnet-setversion
 before_build:
   - nuget restore
-  - ps: $env:VERSION=$(gitversion /showvariable NuGetVersionV2)
+  - ps: |
+      if ($env:APPVEYOR_REPO_BRANCH -eq 'master') {
+          $env:VERSION = (gitversion /showvariable MajorMinorPatch)
+      } else {
+          $env:VERSION = (gitversion /showvariable FullSemVer)
+      }
   - ps: cp README.md src/dotnet-setversion/README.md
 build_script:
   - ps: dotnet restore
@@ -27,7 +32,7 @@ deploy:
   provider: NuGet
   skip_symbols: false
   api_key:
-    secure: 3J8lFUHKXya6PzDo37BA64VysvpCYLKkpnSbIS1FD2PX8ROWcJWJAj7WEHlraffQ
+    secure: KAu0YxpiSIMsKj+Rpy3rc1AGN/WYljKE2Mt8f72UbMzvaLPGllHUFw8UDZ9rwsUY
   artifact: NuGet packages
   on:
     branch: master

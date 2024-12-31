@@ -1,6 +1,6 @@
 next-version: 3.1.0
 branches:
-  master:
+  main:
     increment: None
   release:
     increment: None

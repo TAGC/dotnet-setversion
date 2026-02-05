@@ -62,6 +62,12 @@ For each example, replace '0.1.2-beta0001' with any valid version string or, whe
 
 This (or something similar) can of course be done during a continuous integration build, which is the main intention behind developing this project. This tool depends on itself for its own version management during CI builds, so you can use it as a reference.
 
+## .NET Version Not Yet Supported?
+
+A new version of .NET is typically released each November, and this project needs to be updated each time to support it.
+
+If this project does not yet support the latest release of .NET, check out the [Contribution Guide](CONTRIBUTING.md) for steps on how to submit a PR to add support.
+
 ## Migrating from 1.* to 2.*
 
 **dotnet-setversion** used to be a [per-project tool](https://docs.microsoft.com/en-us/dotnet/core/tools/extensibility#per-project-based-extensibility), but has now been reworked as a [.NET Core Global Tool](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools).  

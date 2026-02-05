@@ -1,13 +1,21 @@
 image: Visual Studio 2022
+environment:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
 branches:
   only:
   - master
   - develop
   - /release\/.+/
 install:
+  # Workaround from GitHub issue #3984 to install .NET 10 SDK
+  - ps: |
+      Invoke-WebRequest -Uri 'https://dot.net/v1/dotnet-install.ps1' -UseBasicParsing -OutFile "$env:temp\dotnet-install.ps1"
+      & $env:temp\dotnet-install.ps1 -Architecture x64 -Version '10.0.100' -InstallDir "$env:ProgramFiles\dotnet"
   - choco install gitversion.portable -y
   - ps: dotnet tool install --global dotnet-setversion
 before_build:
+  - dotnet --version # Verify .NET 10 is active
   - nuget restore
   - ps: |
       if ($env:APPVEYOR_REPO_BRANCH -eq 'master') {
@@ -32,7 +40,7 @@ deploy:
   provider: NuGet
   skip_symbols: false
   api_key:
-    secure: KAu0YxpiSIMsKj+Rpy3rc1AGN/WYljKE2Mt8f72UbMzvaLPGllHUFw8UDZ9rwsUY
+    secure: 5v2Aur7bboVNRpX2K/cIOruZgXySbwiBXGGCS+VBBM0TSv3bFQfIjgfPCyDlyw3A
   artifact: NuGet packages
   on:
     branch: master
